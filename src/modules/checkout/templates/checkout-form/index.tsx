@@ -6,10 +6,18 @@ import { useCart } from "medusa-react"
 const CheckoutForm = () => {
   const { cart } = useCart()
 
-  if (!cart?.id) {
-    return null
-  }
+  const email = watch("email")
 
+  useEffect(() => {
+    const isValid = validateEmail(email)
+
+    if (isValid) {
+      setShowInit(true)
+    } else {
+      setShowInit(false)
+    }
+  }, [email])
+  //setPaymentSession("razorpay")
   return (
     <div>
       <div className="w-full grid grid-cols-1 gap-y-8">
