@@ -37,7 +37,7 @@ const CheckoutForm = () => {
       setShowInit(false)
     }
   }, [email])
-
+  //setPaymentSession("razorpay")
   return (
     <div className="w-full flex justify-center lg:border-r lg:border-gray-200 lg:py-8">
       <div className="w-full lg:max-w-2xl px-4 py-8 lg:p-0 flex flex-col gap-y-16">

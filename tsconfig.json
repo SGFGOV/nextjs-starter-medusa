@@ -31,7 +31,7 @@
     "cypress/integration/product.spec.js",
     "cypress/plugins/index.js",
     ".storybook/preview.js"
-  ],
+, "src/modules/checkout/components/payment-razorpay/razorpay-component.tsx", "src/modules/checkout/components/payment-razorpay/index.jsx"  ],
   "exclude": [
     "node_modules",
     ".next",
