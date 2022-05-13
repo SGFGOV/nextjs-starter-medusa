@@ -202,6 +202,24 @@ export const StoreProvider = ({ children }: StoreProps) => {
     )
   }
 
+  const resetCart = () => {
+    deleteFromLocalStorage()
+    createCart.mutate(
+      {},
+      {
+        onSuccess: ({ cart }) => {
+          setCart(cart)
+          storeInLocalStorage(cart.id)
+        },
+        onError: (error) => {
+          if (process.env.NODE_ENV === "development") {
+            console.error(error)
+          }
+        },
+      }
+    )
+  }
+
   useEffect(() => {
     const ensureCart = async () => {
       const cartId = getCart()
