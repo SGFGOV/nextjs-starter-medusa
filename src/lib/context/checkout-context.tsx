@@ -5,6 +5,7 @@ import {
   Cart,
   Customer,
   StorePostCartsCartReq,
+  StorePostCartsCartPaymentSessionUpdateReq
 } from "@medusajs/medusa"
 import Wrapper from "@modules/checkout/components/payment-wrapper"
 import { isEqual } from "lodash"
@@ -15,7 +16,12 @@ import {
   useMeCustomer,
   useRegions,
   useSetPaymentSession,
+<<<<<<< HEAD
   useUpdateCart,
+=======
+  useUpdatePaymentSession,
+  useCompleteCart
+>>>>>>> ab61afb (adding razorpay)
 } from "medusa-react"
 import { useRouter } from "next/router"
 import React, { createContext, useContext, useEffect, useMemo } from "react"
@@ -53,6 +59,7 @@ interface CheckoutContext {
   setShippingOption: (soId: string) => void
   setPaymentSession: (providerId: string) => void
   onPaymentCompleted: () => void
+  updatePaymentSession: (providedCartId:string  , providerId:string ,data:object) => Promise<Omit<Cart, "refundable_amount" | "refunded_total">|undefined>
 }
 
 const CheckoutContext = createContext<CheckoutContext | null>(null)
@@ -64,6 +71,7 @@ interface CheckoutProviderProps {
 const IDEMPOTENCY_KEY = "create_payment_session_key"
 
 export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
+<<<<<<< HEAD
   const {
     cart,
     setCart,
@@ -122,6 +130,13 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     settingPaymentSession,
     updatingCart,
   ])
+=======
+  const { cart, setCart, addShippingMethod, completeCheckout } = useCart()
+  const { mutate: setPaymentSessionMutation } = useSetPaymentSession(cart?.id!)
+  const { mutate: updatePaymentSessionMutation } = useUpdatePaymentSession(cart?.id!)
+  const { mutate: useCompleteCartMutation } = useCompleteCart(cart?.id!)
+  const { resetCart } = useStore()
+>>>>>>> ab61afb (adding razorpay)
 
   /**
    * Boolean that indicates if the checkout is ready to be completed. A checkout is ready to be completed if
@@ -244,6 +259,22 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
       )
     }
   }
+  const updatePaymentSession = async (providedCartId:string  , providerId:string ,data:object):Promise<Omit<Cart, "refundable_amount" | "refunded_total">|undefined> => {
+    if (cart) {
+      let  reqdata:{ provider_id: string; } & StorePostCartsCartPaymentSessionUpdateReq ={provider_id:providerId,data:data};
+      reqdata.provider_id = providerId
+      reqdata.data=data
+      updatePaymentSessionMutation(
+        reqdata,
+        {
+          onSuccess: ({ cart }) => {
+            setCart(cart)
+          },
+        }
+      )
+    }
+    return Promise.resolve(cart)
+  }
 
   const prepareFinalSteps = () => {
     initPayment()
@@ -341,6 +372,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
           setShippingOption,
           setPaymentSession,
           onPaymentCompleted,
+          updatePaymentSession
         }}
       >
         <Wrapper paymentSession={cart?.payment_session}>{children}</Wrapper>
