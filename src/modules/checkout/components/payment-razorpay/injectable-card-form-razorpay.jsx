@@ -66,7 +66,7 @@ const InjectableCardFormRazorpay = ({ session }) => {
           <span className="text-rose-500 mt-4">{errorMessage}</span>
         )}
       </div>
-      <div>
+     {/* <div>
         <button
           className="btn-ui my-4 w-full flex items-center justify-center"
           disabled={processing}
@@ -96,7 +96,7 @@ const InjectableCardFormRazorpay = ({ session }) => {
           )}
           Pay via Razorpay
         </button>
-      </div>
+          </div>*/}
     </div>
   )
 }

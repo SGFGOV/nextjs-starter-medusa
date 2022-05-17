@@ -1,11 +1,13 @@
 import { medusaClient } from "@lib/config"
-import { Address, Cart } from "@medusajs/medusa"
+import { Address, Cart,StorePostCartsCartPaymentSessionUpdateReq } from "@medusajs/medusa"
 import Wrapper from "@modules/checkout/components/payment-wrapper"
 import {
   formatAmount,
   useCart,
   useCartShippingOptions,
   useSetPaymentSession,
+  useUpdatePaymentSession,
+  useCompleteCart
 } from "medusa-react"
 import { useRouter } from "next/router"
 import React, { createContext, useContext, useEffect, useMemo } from "react"
@@ -38,6 +40,7 @@ interface CheckoutContext {
   addShippingOption: (soId: string) => void
   setPaymentSession: (providerId: string) => Promise<void>
   onPaymentCompleted: () => void
+  updatePaymentSession: (providedCartId:string  , providerId:string ,data:object) => Promise<Omit<Cart, "refundable_amount" | "refunded_total">|undefined>
 }
 
 const CheckoutContext = createContext<CheckoutContext | null>(null)
@@ -84,6 +87,8 @@ const IDEMPOTENCY_KEY = "create_payment_session_key"
 export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   const { cart, setCart, addShippingMethod, completeCheckout } = useCart()
   const { mutate: setPaymentSessionMutation } = useSetPaymentSession(cart?.id!)
+  const { mutate: updatePaymentSessionMutation } = useUpdatePaymentSession(cart?.id!)
+  const { mutate: useCompleteCartMutation } = useCompleteCart(cart?.id!)
   const { resetCart } = useStore()
 
   const createPaymentSession = async (cartId: string) => {
@@ -108,6 +113,22 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
         }
       )
     }
+  }
+  const updatePaymentSession = async (providedCartId:string  , providerId:string ,data:object):Promise<Omit<Cart, "refundable_amount" | "refunded_total">|undefined> => {
+    if (cart) {
+      let  reqdata:{ provider_id: string; } & StorePostCartsCartPaymentSessionUpdateReq ={provider_id:providerId,data:data};
+      reqdata.provider_id = providerId
+      reqdata.data=data
+      updatePaymentSessionMutation(
+        reqdata,
+        {
+          onSuccess: ({ cart }) => {
+            setCart(cart)
+          },
+        }
+      )
+    }
+    return Promise.resolve(cart)
   }
 
   const { shipping_options, refetch } = useCartShippingOptions(cart?.id!, {
@@ -209,6 +230,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
           addShippingOption,
           setPaymentSession,
           onPaymentCompleted,
+          updatePaymentSession
         }}
       >
         <Wrapper paymentSession={cart?.payment_session}>{children}</Wrapper>

@@ -62,6 +62,9 @@ const Payment = ({ order }: OrderDetailsProps) => {
         return "Credit Card"
       case "klarna":
         return "Klarna"
+      case "razorpay":
+          return "Razorpay"
+        
       case "manual":
         return "Medusa Test Payment"
       default:
@@ -90,6 +93,8 @@ const Shipment = ({ order }: OrderDetailsProps) => {
         return "Credit Card"
       case "klarna":
         return "Klarna"
+      case "razorpay":
+          return "Razorpay"
       case "manual":
         return "Medusa Test Payment"
       default:

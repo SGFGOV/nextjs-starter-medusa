@@ -60,10 +60,10 @@ class RazorpayComponent extends React.Component {
     var amount_to_be_paid = cart.total*100
    
       var options = {
-        "key": process.env.GATSBY_RAZORPAY_KEY,
+        "key": process.env.NEXT_PUBLIC_RAZORPAY_KEY,
         "amount": amount_to_be_paid, // 2000 paise = INR 20, amount in paisa
-        "name": process.env.GATSBY_SHOP_NAME,
-        "description": process.env.GATSBY_SHOP_DESCRIPTION,
+        "name": process.env.NEXT_PUBLIC_SHOP_NAME,
+        "description": process.env.NEXT_PUBLIC_SHOP_DESCRIPTION,
         "order_id":session.data.id,
         "currency":session.data.currency,
         "prefill":{

@@ -5,6 +5,8 @@ import Spinner from "@modules/common/icons/spinner"
 import { useElements, useStripe } from "@stripe/react-stripe-js"
 import { useCart } from "medusa-react"
 import React, { useEffect, useState } from "react"
+import useRazorpay from "react-razorpay"
+import RazorpayComponent from '../payment-razorpay/razorpay-component'
 
 type PaymentButtonProps = {
   paymentSession?: PaymentSession | null
@@ -45,6 +47,8 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ paymentSession }) => {
       return (
         <StripePaymentButton session={paymentSession} notReady={notReady} />
       )
+    case "razorpay":
+        return <RazorpayPaymentButton session={paymentSession} notReady={notReady} />
     case "manual":
       return <ManualTestPaymentButton notReady={notReady} />
     default:
@@ -172,6 +176,88 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
     <Button disabled={submitting || notReady} onClick={handlePayment}>
       {submitting ? <Spinner /> : "Checkout"}
     </Button>
+  )
+}
+
+const RazorpayPaymentButton = ({
+  session,
+  notReady,
+}: {
+  session: PaymentSession
+  notReady: boolean
+}) => {
+  const [disabled, setDisabled] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] =
+    useState<string | undefined>(undefined)
+
+  const { cart } = useCart()
+  const { onPaymentCompleted,setPaymentSession,updatePaymentSession } = useCheckout()
+  const Razorpay = useRazorpay()
+  const razorpay = new RazorpayComponent()
+ 
+  useEffect(() => {
+    if (!razorpay) {
+      setDisabled(true)
+    } else {
+      setDisabled(false)
+    }
+  }, [razorpay])
+
+  const handlePayment = async () => {
+    setSubmitting(true)
+
+    if (!razorpay || !cart) {
+      setSubmitting(false)
+      return
+    }
+
+    const completeOrder = async (response:any) => {
+      //await setPaymentSession("razorpay")
+  
+      if (!cart) {
+        setSubmitting(false)
+        return
+      }
+      const cart_updated = await updatePaymentSession(cart.id,"razorpay",response)
+  
+      if (!cart_updated) {
+        setSubmitting(false)
+        return
+      }
+  
+    /*  const order = await completeCart(cart_updated.id)
+  
+      if (!order) {
+        setSubmitting(false)
+        return
+      }*/
+  
+      onPaymentCompleted()
+     
+     // setProcessing(false)
+     // navigate("/order-confirmed", { state: { order } })
+    }
+    
+    let razorpayPaymentResponse = razorpay.openPayModal(session,cart,completeOrder,setErrorMessage,setSubmitting)  ;
+
+    return razorpayPaymentResponse
+   
+  }
+  return (
+    <>
+      <Button
+        disabled={submitting || disabled || notReady}
+        onClick={handlePayment}
+      >
+        {submitting ? <Spinner /> : "Checkout"}
+      </Button>
+      {errorMessage && (
+        <div className="text-red-500 text-small-regular mt-2">
+          {errorMessage}
+        </div>
+      )}
+    </>
   )
 }
 
