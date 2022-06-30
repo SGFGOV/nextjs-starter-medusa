@@ -22,7 +22,7 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({
             case "paypal":
               return <PayPalDetails key={p.id} />
             case "razorpay":
-              return <TestDetails key={p.id} />
+              return <RazorpayDetails key={p.id} />
             case "manual":
               return <TestDetails key={p.id} />
             default:
@@ -78,8 +78,7 @@ const TestDetails = () => {
 const RazorpayDetails = () => {
   return (
     <div>
-      <span>Test</span>
-      <span>Test payment using medusa-payment-razorpay</span>
+        <span>Payment using medusa-payment-razorpay</span>
     </div>
   )
 }

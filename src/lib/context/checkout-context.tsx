@@ -16,12 +16,8 @@ import {
   useMeCustomer,
   useRegions,
   useSetPaymentSession,
-<<<<<<< HEAD
   useUpdateCart,
-=======
   useUpdatePaymentSession,
-  useCompleteCart
->>>>>>> ab61afb (adding razorpay)
 } from "medusa-react"
 import { useRouter } from "next/router"
 import React, { createContext, useContext, useEffect, useMemo } from "react"
@@ -59,7 +55,7 @@ interface CheckoutContext {
   setShippingOption: (soId: string) => void
   setPaymentSession: (providerId: string) => void
   onPaymentCompleted: () => void
-  updatePaymentSession: (providedCartId:string  , providerId:string ,data:object) => Promise<Omit<Cart, "refundable_amount" | "refunded_total">|undefined>
+  updatePayment: (providedCartId:string  , providerId:string ,data:object) => Promise<Omit<Cart, "refundable_amount" | "refunded_total">|undefined>
 }
 
 const CheckoutContext = createContext<CheckoutContext | null>(null)
@@ -71,7 +67,6 @@ interface CheckoutProviderProps {
 const IDEMPOTENCY_KEY = "create_payment_session_key"
 
 export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
-<<<<<<< HEAD
   const {
     cart,
     setCart,
@@ -93,6 +88,11 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     mutate: setPaymentSessionMutation,
     isLoading: settingPaymentSession,
   } = useSetPaymentSession(cart?.id!)
+
+  const {
+    mutate: updatePaymentSessionMutation,
+    isLoading: updatePaymentSession,
+  } = useUpdatePaymentSession(cart?.id!)
 
   const { mutate: updateCart, isLoading: updatingCart } = useUpdateCart(
     cart?.id!
@@ -130,13 +130,6 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
     settingPaymentSession,
     updatingCart,
   ])
-=======
-  const { cart, setCart, addShippingMethod, completeCheckout } = useCart()
-  const { mutate: setPaymentSessionMutation } = useSetPaymentSession(cart?.id!)
-  const { mutate: updatePaymentSessionMutation } = useUpdatePaymentSession(cart?.id!)
-  const { mutate: useCompleteCartMutation } = useCompleteCart(cart?.id!)
-  const { resetCart } = useStore()
->>>>>>> ab61afb (adding razorpay)
 
   /**
    * Boolean that indicates if the checkout is ready to be completed. A checkout is ready to be completed if
@@ -259,7 +252,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
       )
     }
   }
-  const updatePaymentSession = async (providedCartId:string  , providerId:string ,data:object):Promise<Omit<Cart, "refundable_amount" | "refunded_total">|undefined> => {
+  const updatePayment = async (providedCartId:string  , providerId:string ,data:object):Promise<Omit<Cart, "refundable_amount" | "refunded_total">|undefined> => {
     if (cart) {
       let  reqdata:{ provider_id: string; } & StorePostCartsCartPaymentSessionUpdateReq ={provider_id:providerId,data:data};
       reqdata.provider_id = providerId
@@ -372,7 +365,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
           setShippingOption,
           setPaymentSession,
           onPaymentCompleted,
-          updatePaymentSession
+          updatePayment
         }}
       >
         <Wrapper paymentSession={cart?.payment_session}>{children}</Wrapper>
