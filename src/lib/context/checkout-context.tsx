@@ -240,6 +240,7 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
    */
   const setPaymentSession = (providerId: string) => {
     if (cart) {
+      
       setPaymentSessionMutation(
         {
           provider_id: providerId,
@@ -254,11 +255,13 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
   }
   const updatePayment = async (providedCartId:string  , providerId:string ,data:object):Promise<Omit<Cart, "refundable_amount" | "refunded_total">|undefined> => {
     if (cart) {
-      let  reqdata:{ provider_id: string; } & StorePostCartsCartPaymentSessionUpdateReq ={provider_id:providerId,data:data};
-      reqdata.provider_id = providerId
-      reqdata.data=data
+      type SessionParameters =  {
+        provider_id: string;
+    } & StorePostCartsCartPaymentSessionUpdateReq;
+    let updateParameters:SessionParameters= {provider_id:providerId,data:data}
+
       updatePaymentSessionMutation(
-        reqdata,
+        updateParameters,
         {
           onSuccess: ({ cart }) => {
             setCart(cart)
