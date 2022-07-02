@@ -30,7 +30,7 @@ export type StoreProps<T extends unknown> = {
 
 // page props for non-store pages (home, about, contact, etc)
 export type SiteProps = {
-  site: {
+  site?: {
     navData: StoreNavData
   }
 }
