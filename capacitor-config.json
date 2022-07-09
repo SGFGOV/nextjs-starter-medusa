@@ -1,0 +1,13 @@
+{
+    "appId": "com.sourcegoodfood.app",
+    "appName": "sourcegoodfood",
+    "bundledWebRuntime": true,
+    "npmClient": "yarn",
+    "webDir": "build",
+    "plugins": {
+      "SplashScreen": {
+        "launchShowDuration": 0
+      }
+    },
+    "cordova": {}
+  }

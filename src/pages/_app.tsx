@@ -7,11 +7,26 @@ import { CartProvider, MedusaProvider } from "medusa-react"
 import { Hydrate } from "react-query"
 import "styles/globals.css"
 import { AppPropsWithLayout } from "types/global"
+import Script from 'next/script';
+
+import 'tailwindcss/tailwind.css';
+import '@ionic/react/css/core.css';
+import '@ionic/react/css/padding.css';
+import '@ionic/react/css/float-elements.css';
+import '@ionic/react/css/text-alignment.css';
+import '@ionic/react/css/text-transformation.css';
+import '@ionic/react/css/flex-utils.css';
+import '@ionic/react/css/display.css';
+
+import 'styles/variables.css';
+
 
 function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page)
 
   return (
+    <>
+    
     <MedusaProvider
       baseUrl={MEDUSA_BACKEND_URL}
       queryClientProviderProps={{
@@ -32,6 +47,9 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
         </CartDropdownProvider>
       </Hydrate>
     </MedusaProvider>
+    <Script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></Script>
+    
+    </>
   )
 }
 

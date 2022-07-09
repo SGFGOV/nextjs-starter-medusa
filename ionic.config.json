@@ -1,0 +1,7 @@
+{
+  "name": "nextjs-starter-medusa",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
