@@ -5,11 +5,6 @@ import { MobileMenuProvider } from "@lib/context/mobile-menu-context"
 import { StoreProvider } from "@lib/context/store-context"
 import { CartProvider, MedusaProvider } from "medusa-react"
 import { Hydrate } from "react-query"
-import "styles/globals.css"
-import { AppPropsWithLayout } from "types/global"
-import Script from 'next/script';
-
-import 'tailwindcss/tailwind.css';
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/padding.css';
 import '@ionic/react/css/float-elements.css';
@@ -19,6 +14,12 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
 import 'styles/variables.css';
+
+import "styles/globals.css"
+import { AppPropsWithLayout } from "types/global"
+import Script from 'next/script';
+
+//import 'tailwindcss/tailwind.css';
 
 
 function App({ Component, pageProps }: AppPropsWithLayout) {
