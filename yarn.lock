@@ -1478,7 +1478,7 @@ algoliasearch-helper@^3.9.0:
   dependencies:
     "@algolia/events" "^4.0.1"
 
-algoliasearch@>=4:
+algoliasearch@>=4, algoliasearch@^4.13.1:
   version "4.13.1"
   resolved "https://registry.npmjs.org/algoliasearch/-/algoliasearch-4.13.1.tgz"
   integrity sha512-dtHUSE0caWTCE7liE1xaL+19AFf6kWEcyn76uhcitWpntqvicFHXKFoZe5JJcv9whQOTRM6+B8qJz6sFj+rDJA==
