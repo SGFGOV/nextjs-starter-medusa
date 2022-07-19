@@ -26,6 +26,14 @@ module.exports = withStoreConfig({
       },
     ];
   },
+  rewrites: async () => {
+    return [
+      {
+        source: '/health',
+        destination: '/api/health',
+      },
+    ];
+  },
 })
 console.log(process.env)
 console.log("next.config.js", JSON.stringify(module.exports, null, 2))
