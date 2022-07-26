@@ -1,7 +1,8 @@
 const { withStoreConfig } = require("./store-config")
+const withTM = require('next-transpile-modules')(['@ionic/react', '@ionic/core', '@stencil/core', 'ionicons']);
 const store = require("./store.config.json")
 
-module.exports = withStoreConfig({
+module.exports = withTM(withStoreConfig({
   features: store.features,
   reactStrictMode: true,
   images: {
@@ -9,6 +10,6 @@ module.exports = withStoreConfig({
       "medusa-public-images.s3.eu-west-1.amazonaws.com", "localhost"
     ],
   },
-})
+}))
 
 console.log("next.config.js", JSON.stringify(module.exports, null, 2))

@@ -17,13 +17,18 @@ import 'styles/variables.css';
 
 import "styles/globals.css"
 import { AppPropsWithLayout } from "types/global"
+import { setupIonicReact } from '@ionic/react';
 import Script from 'next/script';
+import { menuController } from '@ionic/core/components';
 
 //import 'tailwindcss/tailwind.css';
 
 
 function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page)
+  setupIonicReact({
+    mode: 'md'
+  });
 
   return (
     <>
