@@ -17,7 +17,7 @@ module.exports = withStoreConfig({
   },
   images: {
     domains: [
-      "medusa-public-images.s3.eu-west-1.amazonaws.com", "localhost"
+      "medusa-public-images.s3.eu-west-1.amazonaws.com", "localhost",process.env.NEXT_PUBLIC_CDN_DOMAIN??""
     ],
   },
   rewrites: async () => {
