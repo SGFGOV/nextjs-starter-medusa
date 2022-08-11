@@ -183,45 +183,7 @@ export const StoreProvider = ({ children }: StoreProps) => {
     )
   }
 
-  const resetCart = () => {
-    deleteCart()
-    createCart.mutate(
-      {},
-      {
-        onSuccess: ({ cart }) => {
-          setCart(cart)
-          storeCart(cart.id)
-          ensureRegion(cart.region)
-        },
-        onError: (error) => {
-          if (process.env.NODE_ENV === "development") {
-            console.error(error)
-          }
-        },
-      }
-    )
-  }
-
-  const resetCart = () => {
-    deleteCart()
-    createCart.mutate(
-      {},
-      {
-        onSuccess: ({ cart }) => {
-          setCart(cart)
-          storeCart(cart.id)
-          ensureRegion(cart.region)
-        },
-        onError: (error) => {
-          if (process.env.NODE_ENV === "development") {
-            console.error(error)
-          }
-        },
-      }
-    )
-  }
-
-  useEffect(() => {
+    useEffect(() => {
     const ensureCart = async () => {
       const cartId = getCart()
       const region = getRegion()

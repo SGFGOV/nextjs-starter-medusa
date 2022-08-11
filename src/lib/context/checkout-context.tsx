@@ -322,32 +322,6 @@ export const CheckoutProvider = ({ children }: CheckoutProviderProps) => {
 
   const router = useRouter()
 
-  /**
-   * Method to complete the checkout process. This is called when the user clicks the "Complete Checkout" button.
-   */
-  const onPaymentCompleted = () => {
-    complete(undefined, {
-      onSuccess: ({ data }) => {
-        resetCart()
-        push(`/order/confirmed?id=${data.id}`)
-      },
-    })
-  }
-
-  const router = useRouter()
-
-  /**
-   * Method to complete the checkout process. This is called when the user clicks the "Complete Checkout" button.
-   */
-  const onPaymentCompleted = () => {
-    complete(undefined, {
-      onSuccess: ({ data }) => {
-        resetCart()
-        push(`/order/confirmed?id=${data.id}`)
-      },
-    })
-  }
-
   return (
     <FormProvider {...methods}>
       <CheckoutContext.Provider

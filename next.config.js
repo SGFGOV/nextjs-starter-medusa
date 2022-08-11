@@ -16,7 +16,7 @@ module.exports = withStoreConfig({
     NEXT_PUBLIC_SEARCH_API_KEY:process.env.NEXT_PUBLIC_SEARCH_API_KEY,
   },
   images: {
-    domains: ["medusa-public-images.s3.eu-west-1.amazonaws.com", "localhost"],
+    domains: ["medusa-public-images.s3.eu-west-1.amazonaws.com", "localhost",process.env.NEXT_PUBLIC_CDN_DOMAIN??""],
   },
   rewrites: async () => {
     return [
