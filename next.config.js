@@ -1,4 +1,4 @@
-const { withStoreConfig } = require("./store-config  ")
+const { withStoreConfig } = require("./store-config")
 const store = require("./store.config.json")
 const ContentSecurityPolicy = `
   default-src 'self' *.${process.env.OWN_DOMAIN};
