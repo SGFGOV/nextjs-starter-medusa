@@ -1,10 +1,11 @@
-const { withStoreConfig } = require("./store-config")
+const { withStoreConfig } = require("./store-config  ")
 const store = require("./store.config.json")
 const ContentSecurityPolicy = `
-  default-src 'self';
-  script-src 'self';
-  style-src 'self';
-  font-src 'self';  
+  default-src 'self' *.${process.env.OWN_DOMAIN};
+  script-src 'self' *.${process.env.OWN_DOMAIN} ;
+  style-src 'self' *.${process.env.OWN_DOMAIN} unsafe-inline;
+  font-src 'self' *.${process.env.OWN_DOMAIN};
+    
 `
 const securityHeaders = [{
   key: 'X-DNS-Prefetch-Control',
