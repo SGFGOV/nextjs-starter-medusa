@@ -1,11 +1,10 @@
 const { withStoreConfig } = require("./store-config")
 const store = require("./store.config.json")
 const ContentSecurityPolicy = `
-  default-src 'self' *.${process.env.NEXT_PUBLIC_OWN_DOMAIN};
+  default-src 'self' *.${process.env.NEXT_PUBLIC_OWN_DOMAIN} ${process.env.NEXT_PUBLIC_OWN_DOMAIN};
   script-src 'self' *.${process.env.NEXT_PUBLIC_OWN_DOMAIN} ;
   style-src 'self' *.${process.env.NEXT_PUBLIC_OWN_DOMAIN} unsafe-inline;
-  font-src 'self' *.${process.env.NEXT_PUBLIC_OWN_DOMAIN};
-    
+  font-src 'self' *.${process.env.NEXT_PUBLIC_OWN_DOMAIN} ;
 `
 const securityHeaders = [{
   key: 'X-DNS-Prefetch-Control',
@@ -32,10 +31,10 @@ const securityHeaders = [{
   key: 'X-Content-Type-Options',
   value: 'nosniff'
 },
-{
+/* {
   key: 'Content-Security-Policy',
   value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
-}
+}*/
 ]
 
 module.exports = withStoreConfig({
